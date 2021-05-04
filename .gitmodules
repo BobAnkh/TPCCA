@@ -1,0 +1,12 @@
+[submodule "ccp-kernel"]
+	path = ccp-kernel
+	url = https://github.com/ccp-project/ccp-kernel.git
+[submodule "generic-cong-avoid"]
+	path = generic-cong-avoid
+	url = https://github.com/ccp-project/generic-cong-avoid.git
+[submodule "bbr"]
+	path = bbr
+	url = https://github.com/ccp-project/bbr.git
+[submodule "copa"]
+	path = copa
+	url = https://github.com/venkatarun95/ccp_copa.git
