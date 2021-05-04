@@ -33,4 +33,9 @@ cd bbr && cargo build --release && cd ..
 cd copa && cargo build --release && cd ..
 cd generic-cong-avoid && cargo build --release && cd ..
 
+echo 'Chmod +x to some scripts'
+chmod +x run_iperf.sh
+chmod +x run_iperf_server.sh
+chmod +x run_tc.sh
+
 echo 'Setup done!'
