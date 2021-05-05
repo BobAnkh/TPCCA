@@ -6,6 +6,7 @@ trashbin/
 traces/
 .vscode/
 tmp/
+figures/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
