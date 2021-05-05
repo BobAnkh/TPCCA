@@ -4,12 +4,12 @@ from trace_generator import link_trace_generator
 
 delay_list = [10, 25, 50, 100, 150, 200, 250]
 bw_list = [(12, 0), (12, 1), (12, 2), (24, 0), (24, 1), (24, 2), (24, 4),(48, 0), (48, 1), (48, 2), (48, 4), (48, 8)]
-length = 500
+length = 1000
 interval = 5
 
 packet_buffer_list = [200]
 log_folder = 'log'
-duration = '60'
+duration = '120'
 alg = 'ccp'
 
 ccp_algs = {
@@ -35,16 +35,19 @@ for ccp_alg in ccp_algs:
                         ccp_args = '--deficit_timeout=20'
                     cmd = f'sudo {ccp_algs[ccp_alg]} --ipc=netlink {ccp_args} > ./{log_folder}/{ccp_alg}-tmp.log 2> ./{log_folder}/{log_name}-ccp.log'
                     subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
-                    subprocess.run("sudo dd if=/dev/null of=/proc/net/tcpprobe 2> /dev/null", shell=True)
-                    subprocess.run(f'sudo dd if=/proc/net/tcpprobe of="./{log_folder}/{ccp_alg}-tmp.log" 2> /dev/null &', shell=True)
+                    subprocess.run("sudo dd if=/dev/null of=/sys/kernel/debug/tracing/trace 2> /dev/null", shell=True)
+                    subprocess.run("sudo sh -c 'echo 1 > /sys/kernel/debug/tracing/events/tcp/tcp_probe/enable'", shell=True)
+                    
                     time.sleep(1)
 
                     cmd = f'mm-link ./traces/{bw}-{var} ./traces/{bw}-{var} --uplink-queue=droptail --downlink-queue=droptail --uplink-queue-args="packets={packet_buffer}" --downlink-queue-args="packets={packet_buffer}" --uplink-log="./{log_folder}/{log_name}-mahimahi.log" -- ./run_iperf.sh {log_folder} {log_name} {alg} {duration} {delay}ms {delay_var}ms'
                     subprocess.run(cmd, shell=True)
                     time.sleep(1)
-
+                    subprocess.run("sudo sh -c 'echo 0 > /sys/kernel/debug/tracing/events/tcp/tcp_probe/enable'", shell=True)
+                    subprocess.run(f'sudo dd if=/sys/kernel/debug/tracing/trace of="./{log_folder}/{ccp_alg}-tmp.log" 2> /dev/null', shell=True)
                     subprocess.run("sudo killall dd 2> /dev/null", shell=True)
-                    subprocess.run(f'grep ":9001" "./{log_folder}/{ccp_alg}-tmp.log" > "./{log_folder}/{log_name}-tcpprobe.log"', shell=True)
+                    subprocess.run(f'head -n 11 "./{log_folder}/{ccp_alg}-tmp.log" > "./{log_folder}/{log_name}-tcpprobe.log"', shell=True)
+                    subprocess.run(f'grep ":9001" "./{log_folder}/{ccp_alg}-tmp.log" >> "./{log_folder}/{log_name}-tcpprobe.log"', shell=True)
                     subprocess.run(f'rm -f "./{log_folder}/{ccp_alg}-tmp.log"', shell=True)
                     subprocess.run('sudo killall reno cubic bbr copa 2> /dev/null', shell=True)
                     time.sleep(1)
