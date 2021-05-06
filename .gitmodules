@@ -10,3 +10,6 @@
 [submodule "copa"]
 	path = copa
 	url = https://github.com/venkatarun95/ccp_copa.git
+[submodule "mahimahi"]
+	path = mahimahi
+	url = https://github.com/fcangialosi/mahimahi.git
