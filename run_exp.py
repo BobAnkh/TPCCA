@@ -1,6 +1,7 @@
 import subprocess
 import time
 from trace_generator import link_trace_generator
+from tqdm import tqdm
 
 delay_list = [10, 25, 50, 100, 150, 200, 250]
 bw_list = [(12, 0), (12, 1), (12, 2), (24, 0), (24, 1), (24, 2), (24, 4),(48, 0), (48, 1), (48, 2), (48, 4), (48, 8)]
@@ -23,6 +24,7 @@ link_trace_generator(bw_list, length, interval)
 
 iperf_server = subprocess.Popen('./run_iperf_server.sh', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
 
+pbar = tqdm(total=len(ccp_algs)*len(packet_buffer_list)*len(bw_list)*len(delay_list)*2)
 for ccp_alg in ccp_algs:
     for packet_buffer in packet_buffer_list:
         for bw, var in bw_list:
@@ -38,7 +40,7 @@ for ccp_alg in ccp_algs:
                     subprocess.run("sudo dd if=/dev/null of=/sys/kernel/debug/tracing/trace 2> /dev/null", shell=True)
                     subprocess.run("sudo sh -c 'echo 1 > /sys/kernel/debug/tracing/events/tcp/tcp_probe/enable'", shell=True)
                     
-                    time.sleep(1)
+                    time.sleep(0.5)
 
                     cmd = f'mm-link ./traces/{bw}-{var} ./traces/{bw}-{var} --uplink-queue=droptail --downlink-queue=droptail --uplink-queue-args="packets={packet_buffer}" --downlink-queue-args="packets={packet_buffer}" --uplink-log="./{log_folder}/{log_name}-mahimahi.log" -- ./run_iperf.sh {log_folder} {log_name} {alg} {duration} {delay}ms {delay_var}ms'
                     subprocess.run(cmd, shell=True)
@@ -50,10 +52,12 @@ for ccp_alg in ccp_algs:
                     subprocess.run(f'grep ":9001" "./{log_folder}/{ccp_alg}-tmp.log" >> "./{log_folder}/{log_name}-tcpprobe.log"', shell=True)
                     subprocess.run(f'rm -f "./{log_folder}/{ccp_alg}-tmp.log"', shell=True)
                     subprocess.run('sudo killall reno cubic bbr copa 2> /dev/null', shell=True)
-                    time.sleep(1)
+                    time.sleep(0.5)
+                    pbar.update(1)
 
 print("All Done!")
-time.sleep(5)
+pbar.close()
+time.sleep(2)
 if iperf_server.poll() != 0:
     iperf_server.kill()
 subprocess.run('sudo killall iperf 2> /dev/null', shell=True)
