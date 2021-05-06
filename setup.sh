@@ -82,6 +82,10 @@ else
     #rm $2/build_tmp
     cd ..
 fi
+
+echo 'Build mahimahi...'
+cd mahimahi && ./autogen.sh && ./configure && make && sudo make install
+
 echo 'Chmod +x to some scripts'
 chmod +x run_iperf.sh
 chmod +x run_iperf_server.sh
