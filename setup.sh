@@ -1,7 +1,7 @@
 #!/bin/bash
 # set -xeu
 
-mk_folder(){
+mk_folder() {
     if [ ! -d "$1" ]; then
         mkdir "$1"
         echo "Create folder $1"
@@ -15,9 +15,9 @@ mk_folder tmp
 mk_folder figures
 
 # install rust
-if command -v rustc >/dev/null 2>&1; then 
-    echo 'Exists rustc...skip intstall!' 
-else 
+if command -v rustc >/dev/null 2>&1; then
+    echo 'Exists rustc...skip intstall!'
+else
     echo 'No exists rustc...install rust!'
     curl https://sh.rustup.rs -sSf | sh -s
 fi
@@ -29,7 +29,7 @@ git submodule update --init --recursive
 echo 'Reset...'
 sudo pkill -9 iperf
 sudo sh -c 'echo 0 > /sys/kernel/debug/tracing/events/tcp/tcp_probe/enable'
-sudo dd if=/dev/null of=/sys/kernel/debug/tracing/trace 2> /dev/null
+sudo dd if=/dev/null of=/sys/kernel/debug/tracing/trace 2>/dev/null
 sudo ./ccp-kernel/ccp_kernel_unload
 # sudo modprobe -r tcp_probe
 sudo modprobe tcp_bbr
@@ -37,9 +37,8 @@ sudo modprobe tcp_bbr
 sudo sysctl -w net.ipv4.ip_forward=1
 
 echo 'Make ccp-kernel...'
-cd ccp-kernel && make > ../tmp/build_tmp 2> ../tmp/build_tmp
-if [ $? -ne 0 ]
-then
+cd ccp-kernel && make >../tmp/build_tmp 2>../tmp/build_tmp
+if [ $? -ne 0 ]; then
     cat ../$2/build_tmp
     exit 1
 else
@@ -53,9 +52,8 @@ fi
 
 echo 'Make Congestion Control Algorithms...'
 echo 'Build bbr...'
-cd bbr && cargo build --release > ../tmp/build_tmp 2> ../tmp/build_tmp
-if [ $? -ne 0 ]
-then
+cd bbr && cargo build --release >../tmp/build_tmp 2>../tmp/build_tmp
+if [ $? -ne 0 ]; then
     cat ../$2/build_tmp
     exit 1
 else
@@ -63,9 +61,8 @@ else
     cd ..
 fi
 echo 'Build copa...'
-cd copa && cargo build --release > ../tmp/build_tmp 2> ../tmp/build_tmp
-if [ $? -ne 0 ]
-then
+cd copa && cargo build --release >../tmp/build_tmp 2>../tmp/build_tmp
+if [ $? -ne 0 ]; then
     cat ../$2/build_tmp
     exit 1
 else
@@ -73,9 +70,8 @@ else
     cd ..
 fi
 echo 'Build cubic and reno...'
-cd generic-cong-avoid && cargo build --release > ../tmp/build_tmp 2> ../tmp/build_tmp
-if [ $? -ne 0 ]
-then
+cd generic-cong-avoid && cargo build --release >../tmp/build_tmp 2>../tmp/build_tmp
+if [ $? -ne 0 ]; then
     cat ../$2/build_tmp
     exit 1
 else
