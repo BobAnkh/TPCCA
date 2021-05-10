@@ -3,7 +3,7 @@
 
 mk_folder() {
     if [ ! -d "$1" ]; then
-        mkdir "$1"
+        mkdir -p "$1"
         echo "Create folder $1"
     fi
 }
@@ -12,7 +12,8 @@ echo 'Create new folders if not exsit...'
 mk_folder traces
 mk_folder log
 mk_folder tmp
-mk_folder figures
+mk_folder figures/ccp
+mk_folder figures/mahimahi
 
 # install rust
 if command -v rustc >/dev/null 2>&1; then
