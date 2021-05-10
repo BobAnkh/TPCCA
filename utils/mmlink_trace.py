@@ -70,7 +70,7 @@ def generate_mmlink_multibw(configs_list):
                         transfer = max(0, transfer - 1500)
                         trace = trace + str(timestamp) + '\n'
         trace_dict[trace_name] = trace
-        trace_info[trace_name] = trace_desc
+        trace_info[trace_name] = {'desc': trace_desc, 'length': timestamp}
     return trace_dict, trace_info
 
 
