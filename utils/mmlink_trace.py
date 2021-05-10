@@ -1,5 +1,5 @@
-import scipy.stats as stats
 import numpy as np
+import scipy.stats as stats
 
 
 def gauss(mu, sigma, number):
@@ -76,4 +76,5 @@ def generate_mmlink_multibw(configs_list):
 
 if __name__ == '__main__':
     # generate_mmlink([(12, 2, 10, 1), (48, 2, 10, 1)])
-    generate_mmlink_multibw([[(12, 0, 10, 1)],[(24, 0, 10, 1), (48, 0, 10, 1)]])
+    generate_mmlink_multibw([[(12, 0, 10, 1)], [(24, 0, 10, 1),
+                                                (48, 0, 10, 1)]])
