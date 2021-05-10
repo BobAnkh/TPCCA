@@ -1,7 +1,10 @@
 import subprocess
 import time
-from trace_generator import link_trace_generator, link_trace_multibw_generator
+
 from tqdm import tqdm
+
+from trace_generator import link_trace_generator, link_trace_multibw_generator
+from utils import tools
 
 delay_list = [10, 25, 50, 100, 150, 200, 250]
 # bw_list = [(12, 0), (12, 1), (12, 2), (24, 0), (24, 1), (24, 2), (24, 4),(48, 0), (48, 1), (48, 2), (48, 4), (48, 8)]
@@ -23,6 +26,7 @@ ccp_algs = {
 configs_list = [[(12, 4, 600, 5)], [(48, 12, 600, 5)], [(24, 4, 300, 5), (48, 8, 300, 5)]]
 # link_trace_generator(bw_list, length, interval)
 trace_info = link_trace_multibw_generator(configs_list, trace_folder)
+tools.clear_folder(log_folder)
 
 print('Running iperf server...')
 iperf_server = subprocess.Popen('./run_iperf_server.sh', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
@@ -36,7 +40,7 @@ for ccp_alg in ccp_algs:
                     pbar.update(1)
                     log_name = f'{ccp_alg}-{link_trace}-{delay}-{delay_var}'
                     print("RUN:", log_name)
-                    duration = '120'
+                    duration = trace_info[link_trace]['length']
                     # if int(duration) * 2 < delay:
                     #     duration = str(int(delay / 2))
                     ccp_args = ''
