@@ -1,31 +1,26 @@
 import subprocess
 import time
 
+import toml
 from tqdm import tqdm
 
 from trace_generator import link_trace_generator, link_trace_multibw_generator
 from utils import tools
 
-delay_list = [10, 25, 50, 100, 150, 200, 250]
-# bw_list = [(12, 0), (12, 1), (12, 2), (24, 0), (24, 1), (24, 2), (24, 4),(48, 0), (48, 1), (48, 2), (48, 4), (48, 8)]
-# length = 1000
-# interval = 5
+configs = toml.load('config.toml')
+delay_list = configs['data']['delay_list']
 
-packet_buffer_list = [200]
-log_folder = 'log'
-alg = 'ccp'
-trace_folder = 'traces'
+packet_buffer_list = configs['data']['packet_buffer_list']
+log_folder = configs['path']['log_folder']
+alg = configs['data']['alg']
+trace_folder = configs['path']['trace_folder']
 
-ccp_algs = {
-    'bbr': './bbr/target/release/bbr',
-    'copa': './copa/target/release/copa',
-    'cubic': './generic-cong-avoid/target/release/cubic',
-    'reno': './generic-cong-avoid/target/release/reno'
-}
+ccp_algs = configs['data']['ccp_algs']
 
-configs_list = [[(12, 4, 600, 5)], [(48, 12, 600, 5)], [(24, 4, 300, 5), (48, 8, 300, 5)]]
-# link_trace_generator(bw_list, length, interval)
-trace_info = link_trace_multibw_generator(configs_list, trace_folder)
+# trace_list = [[(12, 4, 60000, 1), (24, 4, 80000, 1)]]
+trace_list = configs['data']['trace_list']
+
+trace_info = link_trace_multibw_generator(trace_list, trace_folder)
 tools.clear_folder(log_folder)
 
 print('Running iperf server...')

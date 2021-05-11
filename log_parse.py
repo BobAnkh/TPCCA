@@ -1,25 +1,28 @@
 import json
 import os
 
+import toml
+
 from utils.ccp_parse import bbr_parse
+from utils.parseTputDelay import parse_tput_delay, plot_tput_delay
 
-delay_list = [10, 25, 50, 100, 150, 200, 250]
+configs = toml.load('config.toml')
 
-packet_buffer_list = [200]
-log_folder = 'log'
-fig_folder = 'figures'
-trace_folder = 'traces'
-ccp_folder = 'ccp'
+delay_list = configs['data']['delay_list']
 
-ccp_algs = {
-    'bbr': './bbr/target/release/bbr',
-    'copa': './copa/target/release/copa',
-    'cubic': './generic-cong-avoid/target/release/cubic',
-    'reno': './generic-cong-avoid/target/release/reno'
-}
+packet_buffer_list = configs['data']['packet_buffer_list']
+log_folder = configs['path']['log_folder']
+fig_folder = configs['path']['fig_folder']
+trace_folder = configs['path']['trace_folder']
+ccp_fig_folder = configs['path']['ccp_fig_folder']
+mahimahi_fig_folder = configs['path']['mahimahi_fig_folder']
+binsize = configs['data']['log']['binsize']
+duration = configs['data']['log']['duration']
+
+ccp_algs = configs['data']['ccp_algs']
 
 trace_info = json.load(
     open(os.path.join(trace_folder, 'trace_info.json'), encoding='utf-8'))
 
 bbr_parse(trace_info, delay_list, log_folder,
-          os.path.join(fig_folder, ccp_folder))
+          os.path.join(fig_folder, ccp_fig_folder))

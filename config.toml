@@ -1,0 +1,22 @@
+[path]
+log_folder = "log"
+trace_folder = "traces"
+fig_folder = "figures"
+ccp_fig_folder = "ccp"
+mahimahi_fig_folder = "mahimahi"
+
+[data]
+delay_list = [ 10, 25, 50, 100, 150, 200, 250,]
+packet_buffer_list = [ 200,]
+alg = "ccp"
+trace_list = [ [ [ 12, 2, 130000, 1,],], [ [ 48, 8, 130000, 1,],], [ [ 24, 6, 130000, 1,],],]
+
+[data.ccp_algs]
+bbr = "./bbr/target/release/bbr"
+copa = "./copa/target/release/copa"
+cubic = "./generic-cong-avoid/target/release/cubic"
+reno = "./generic-cong-avoid/target/release/reno"
+
+[data.log]
+binsize = 0.05
+duration = 60
