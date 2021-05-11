@@ -89,6 +89,6 @@ chmod +x run_iperf_server.sh
 chmod +x run_tc.sh
 
 echo 'Install Python dependencies...'
-pip install requirements.txt
+pip install -r requirements.txt
 
 echo 'Setup done!'
