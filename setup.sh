@@ -83,9 +83,12 @@ fi
 echo 'Build mahimahi...'
 cd mahimahi && ./autogen.sh && ./configure && make && sudo make install
 
-echo 'Chmod +x to some scripts'
+echo 'Chmod +x to some scripts...'
 chmod +x run_iperf.sh
 chmod +x run_iperf_server.sh
 chmod +x run_tc.sh
+
+echo 'Install Python dependencies...'
+pip install requirements.txt
 
 echo 'Setup done!'
