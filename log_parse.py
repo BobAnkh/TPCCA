@@ -26,3 +26,5 @@ trace_info = json.load(
 
 bbr_parse(trace_info, delay_list, log_folder,
           os.path.join(fig_folder, ccp_fig_folder))
+
+plot_tput_delay(ccp_algs, packet_buffer_list, trace_info, delay_list, log_folder, os.path.join(fig_folder, mahimahi_fig_folder), duration, binsize)
