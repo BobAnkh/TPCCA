@@ -4,19 +4,23 @@ trace_folder = "traces"
 fig_folder = "figures"
 ccp_fig_folder = "ccp"
 mahimahi_fig_folder = "mahimahi"
+area_fig_folder = "area"
 
 [data]
-delay_list = [ 10, 25, 50, 100, 150, 200, 250,]
-packet_buffer_list = [ 200,]
+# delay_list = [ 10, 25, 50, 100, 150, 200, 250,]
+delay_list = [ 10, 25, 50]
+packet_buffer_list = [ 40,]
 alg = "ccp"
-trace_list = [ [ [ 12, 2, 130000, 1,],], [ [ 48, 8, 130000, 1,],], [ [ 24, 6, 130000, 1,],],]
+# trace_list = [ [ [ 12, 2, 130000, 1,],], [ [ 48, 8, 130000, 1,],], [ [ 24, 6, 130000, 1,],],]
+trace_list = [ [ [ 12, 2, 130000, 1,],],[ [ 48, 2, 130000, 1,],]]
+iteration = 100
 
 [data.ccp_algs]
 bbr = "./bbr/target/release/bbr"
-copa = "./copa/target/release/copa"
+# copa = "./copa/target/release/copa"
 cubic = "./generic-cong-avoid/target/release/cubic"
 reno = "./generic-cong-avoid/target/release/reno"
 
 [data.log]
-binsize = 0.05
-duration = 60
+binsize = 0.02
+duration = 10
