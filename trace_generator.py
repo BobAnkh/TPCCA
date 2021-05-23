@@ -1,8 +1,9 @@
 import json
 import os
 
-from utils import mmlink_trace
-from utils import tools
+import numpy as np
+
+from utils import mmlink_trace, tools
 
 
 def link_trace_generator(bw_list, length, interval, trace_path):
@@ -21,6 +22,11 @@ def link_trace_multibw_generator(configs_list, trace_path):
     for trace in link_trace:
         with open(os.path.join(trace_path, trace), 'w', encoding='utf-8') as f:
             f.write(link_trace[trace])
+    for info in trace_info:
+        raw_data = trace_info[info].pop('raw_data')
+        raw_path = os.path.join(trace_path, info + '.npy')
+        trace_info[info]['raw_data'] = raw_path
+        np.save(raw_path, raw_data)
     json.dump(
         trace_info,
         open(os.path.join(trace_path, 'trace_info.json'),
@@ -35,5 +41,5 @@ if __name__ == '__main__':
     # interval = 5
     # link_trace_generator(bw_list, length, interval, TRACE_PATH)
     TRACE_PATH = './traces'
-    configs_list = [[(12, 4, 600, 5)], [(48, 12, 600, 5)], [(24, 4, 300, 5), (48, 8, 300, 5)]]
+    configs_list = [ [ [ 12, 2, 130000, 1,],],[ [ 12, 2, 130000, 1,],],[ [ 12, 2, 130000, 1,],],[ [ 12, 2, 130000, 1,],],[ [ 12, 2, 130000, 1,],],]
     link_trace_multibw_generator(configs_list, TRACE_PATH)
