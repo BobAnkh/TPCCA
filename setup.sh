@@ -82,7 +82,7 @@ else
 fi
 
 echo 'Build mahimahi...'
-cd mahimahi && ./autogen.sh && ./configure && make && sudo make install
+cd mahimahi && ./autogen.sh && ./configure && make && sudo make install && cd ..
 
 echo 'Chmod +x to some scripts...'
 chmod +x run_iperf.sh
