@@ -114,8 +114,8 @@ def binAlgs(fns):
         sp = fn.split('-')
         if sp[-1] != "mahimahi.log":
             continue
-        alg, bw, bw_seq, delay, delay_var = sp[:-1]
-        pl = (alg, bw, bw_seq, delay, delay_var)
+        alg, bw, bw_seq, packet_buf, delay, delay_var, iter_num = sp[:-1]
+        pl = (alg, bw, bw_seq, packet_buf, delay, delay_var, iter_num)
         if pl in plots:
             plots[pl].append(fn)
         else:
@@ -141,36 +141,55 @@ def parse_tput_delay(log_folder, duration, binsize=0):
     return results
 
 
-def plot_tput_delay(ccp_algs, packet_buffer_list, trace_info, delay_list, log_folder, fig_folder, duration, binsize=0):
+def plot_tput_delay(ccp_algs, packet_buffer_list, trace_info, delay_list, iteration, mahimahi_results, fig_folder):
     tools.clear_folder(fig_folder)
-    results = parse_tput_delay(log_folder, duration, binsize)
     print('Plot Throughput and Delay...')
-    for res in tqdm(results):
+    for res in tqdm(mahimahi_results):
         plt.figure()
-        plt.plot(results[res]['time_list'], results[res]['tput_list'], 'ro-', label='Tput')
+        plt.plot(mahimahi_results[res]['time_list'], mahimahi_results[res]['tput_list'], 'ro-', label='Tput')
         plt.title(res)
         plt.xlabel('Time (s)')
         plt.ylabel('BandWidth (Mbps)')
         plt.legend()
         plt.savefig(os.path.join(fig_folder, res[:-4] + '.png'))
         plt.close()
-    pbar = tqdm(total=len(packet_buffer_list)*len(trace_info)*len(delay_list)*2)
+    pbar = tqdm(total=len(packet_buffer_list)*len(trace_info)*len(delay_list)*iteration)
     for packet_buffer in packet_buffer_list:
         for link_trace in trace_info:
             for delay in delay_list:
-                for delay_var in [f'{min(delay / 10, 20):.1f}', f'{min(delay / 5, 30):.1f}']:
-                    plt.figure()
-                    for ccp_alg in ccp_algs:
-                        log_name = f'{ccp_alg}-{link_trace}-{delay}-{delay_var}-mahimahi.log'
-                        plt.plot(results[log_name]['time_list'], results[log_name]['tput_list'], label=f'{ccp_alg}')
-                    plt.title(f'{link_trace}-{delay}-{delay_var}-mahimahi')
-                    plt.xlabel('Time (s)')
-                    plt.ylabel('BandWidth (Mbps)')
-                    plt.legend()
-                    plt.savefig(os.path.join(fig_folder, f'diff-{link_trace}-{delay}-{delay_var}-mahimahi.png'))
-                    plt.close()
-                    pbar.update(1)
+                for delay_var in [f'{min(delay / 10, 20):.1f}']:
+                    for iter_num in range(iteration):
+                        plt.figure()
+                        for ccp_alg in ccp_algs:
+                            log_name = f'{ccp_alg}-{link_trace}-{delay}-{delay_var}-{iter_num}-mahimahi.log'
+                            plt.plot(mahimahi_results[log_name]['time_list'], mahimahi_results[log_name]['tput_list'], label=f'{ccp_alg}')
+                        plt.title(f'{link_trace}-{delay}-{delay_var}-mahimahi')
+                        plt.xlabel('Time (s)')
+                        plt.ylabel('BandWidth (Mbps)')
+                        plt.legend()
+                        plt.savefig(os.path.join(fig_folder, f'diff-{link_trace}-{delay}-{delay_var}-{iter_num}-mahimahi.png'))
+                        plt.close()
+                        pbar.update(1)
     pbar.close()
+    if iteration > 1:
+        pbar = tqdm(total=len(packet_buffer_list)*len(trace_info)*len(delay_list)*iteration)
+        for packet_buffer in packet_buffer_list:
+            for link_trace in trace_info:
+                for delay in delay_list:
+                    for delay_var in [f'{min(delay / 10, 20):.1f}']:
+                        for ccp_alg in ccp_algs:
+                            plt.figure()
+                            for iter_num in range(iteration):
+                                log_name = f'{ccp_alg}-{link_trace}-{delay}-{delay_var}-{iter_num}-mahimahi.log'
+                                plt.plot(mahimahi_results[log_name]['time_list'], mahimahi_results[log_name]['tput_list'], label=f'{iter_num}')
+                            plt.title(f'{ccp_alg}-{link_trace}-{delay}-{delay_var}-mahimahi')
+                            plt.xlabel('Time (s)')
+                            plt.ylabel('BandWidth (Mbps)')
+                            plt.legend()
+                            plt.savefig(os.path.join(fig_folder, f'iter-{ccp_alg}-{link_trace}-{delay}-{delay_var}-mahimahi.png'))
+                            plt.close()
+                            pbar.update(1)
+        pbar.close()
 
 
 if __name__ == '__main__':
