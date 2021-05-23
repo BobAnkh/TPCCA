@@ -55,11 +55,13 @@ def generate_mmlink_multibw(configs_list):
         trace = ''
         trace_name = ''
         trace_desc = ''
+        raw_trace_data = np.array([])
         for mean, var, length, interval in configs:
             if trace_name == '':
                 trace_name = f'{mean}-{seq}'
             trace_desc = trace_desc + f'<{mean}-{var}-{length}-{interval}>'
             bw = gauss(mean, var, length)
+            raw_trace_data = np.append(raw_trace_data, bw)
             for b in bw:
                 transfer = transfer + b * 125 / interval
                 last_time = last_time + 1
@@ -70,7 +72,7 @@ def generate_mmlink_multibw(configs_list):
                         transfer = max(0, transfer - 1500)
                         trace = trace + str(timestamp) + '\n'
         trace_dict[trace_name] = trace
-        trace_info[trace_name] = {'desc': trace_desc, 'length': timestamp}
+        trace_info[trace_name] = {'desc': trace_desc, 'length': timestamp, 'raw_data': raw_trace_data}
     return trace_dict, trace_info
 
 
