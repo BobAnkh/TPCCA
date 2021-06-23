@@ -160,7 +160,7 @@ def plot_area(ccp_algs, packet_buffer_list, trace_info, delay_list, iteration,
                             area = calculate_area_detail(
                                 mahimahi_results[log_name]['time_list'],
                                 mahimahi_results[log_name]['tput_list'], 0,
-                                stable_mark, standard_bw) /(standard_bw/12)
+                                stable_mark, standard_bw) / (standard_bw / 12)
                             # print(log_name, stable_mark)
                             if ccp_alg not in alg_dict:
                                 alg_dict[ccp_alg] = [area]
@@ -205,10 +205,11 @@ def plot_area(ccp_algs, packet_buffer_list, trace_info, delay_list, iteration,
         b = sns.violinplot(data=df, palette='Set2')
         print(plt.yticks())
         _, xlabels = plt.xticks()
-        b.set_yticklabels(b.get_yticks(), size = 20)
-        b.set_xticklabels(xlabels, size = 20)
+        b.set_yticklabels(b.get_yticks(), size=20)
+        b.set_xticklabels(xlabels, size=20)
         # plt.title(scenario)
         plt.ylabel('Area', fontsize='20')
-        plt.savefig(os.path.join(fig_folder, f'{scenario}-violin.pdf'), bbox_inches='tight')
+        plt.savefig(os.path.join(fig_folder, f'{scenario}-violin.pdf'),
+                    bbox_inches='tight')
         plt.close()
     return area_dict
