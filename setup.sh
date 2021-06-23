@@ -22,7 +22,8 @@ if command -v rustc >/dev/null 2>&1; then
 else
     echo 'No exists rustc...install rust!'
     curl https://sh.rustup.rs -sSf | sh -s
-    source $HOME/.cargo/env
+    # shellcheck disable=SC1091
+    source "$HOME"/.cargo/env
 fi
 
 echo 'Update git submodule...'
@@ -31,24 +32,24 @@ git submodule update --init --recursive
 # reset everything
 echo 'Reset...'
 sudo pkill -9 iperf
-sudo sh -c 'echo 0 > /sys/kernel/debug/tracing/events/tcp/tcp_probe/enable'
-sudo dd if=/dev/null of=/sys/kernel/debug/tracing/trace 2>/dev/null
+# sudo sh -c 'echo 0 > /sys/kernel/debug/tracing/events/tcp/tcp_probe/enable'
+# sudo dd if=/dev/null of=/sys/kernel/debug/tracing/trace 2>/dev/null
 sudo ./ccp-kernel/ccp_kernel_unload
 # sudo modprobe -r tcp_probe
-sudo modprobe tcp_bbr
+# sudo modprobe tcp_bbr
 # sudo modprobe tcp_probe port=9001
 sudo sysctl -w net.ipv4.ip_forward=1
 
 echo 'Make ccp-kernel...'
 cd ccp-kernel && make >../tmp/build_tmp 2>../tmp/build_tmp
 if [ $? -ne 0 ]; then
-    cat ../$2/build_tmp
+    cat ../"$2"/build_tmp
     exit 1
 else
     #rm $2/build_tmp
     echo "Load ccp-kernel..."
     ulimit -Sn 8192
-    echo $PWD
+    echo "$PWD"
     sudo ./ccp_kernel_load ipc=0
     cd ..
 fi
@@ -57,7 +58,7 @@ echo 'Make Congestion Control Algorithms...'
 echo 'Build bbr...'
 cd bbr && cargo build --release >../tmp/build_tmp 2>../tmp/build_tmp
 if [ $? -ne 0 ]; then
-    cat ../$2/build_tmp
+    cat ../"$2"/build_tmp
     exit 1
 else
     #rm $2/build_tmp
@@ -66,7 +67,7 @@ fi
 echo 'Build copa...'
 cd copa && cargo build --release >../tmp/build_tmp 2>../tmp/build_tmp
 if [ $? -ne 0 ]; then
-    cat ../$2/build_tmp
+    cat ../"$2"/build_tmp
     exit 1
 else
     #rm $2/build_tmp
@@ -75,7 +76,7 @@ fi
 echo 'Build cubic and reno...'
 cd generic-cong-avoid && cargo build --release >../tmp/build_tmp 2>../tmp/build_tmp
 if [ $? -ne 0 ]; then
-    cat ../$2/build_tmp
+    cat ../"$2"/build_tmp
     exit 1
 else
     #rm $2/build_tmp
