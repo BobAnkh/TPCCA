@@ -2,10 +2,21 @@ import os
 import re
 
 import matplotlib.pyplot as plt
+
 from utils import tools
 
 
 def bbr_parse(trace_info, delay_list, iteration, log_folder, fig_folder):
+    '''
+    Parse bbr log of CCP
+
+    Args:
+        trace_info (dict): traces information
+        delay_list (list): delay list
+        iteration (int): number of iterations
+        log_folder (str): folder of logs
+        fig_folder (str): folder to save figures
+    '''
     tools.clear_folder(fig_folder)
     ccp_alg = 'bbr'
     header = r'[A-Za-z]{3}\s[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\.[0-9]{1,3}\sINFO\sconfigured\s(.+?),\sprobe_rtt_interval:\sDuration\s\{\ssecs:\s([0-9]+?),\snanos:\s([0-9]+?)\s\},\sipc:\s([A-Za-z]+)'
@@ -17,8 +28,7 @@ def bbr_parse(trace_info, delay_list, iteration, log_folder, fig_folder):
 
     for link_trace in trace_info:
         for delay in delay_list:
-            for delay_var in [
-                    f'{min(delay / 10, 20):.1f}']:
+            for delay_var in [f'{min(delay / 10, 20):.1f}']:
                 for iter_num in range(iteration):
                     plt.figure()
                     bottle_rate = []
@@ -26,21 +36,24 @@ def bbr_parse(trace_info, delay_list, iteration, log_folder, fig_folder):
                     elapsed_time = []
                     log_name = f'{ccp_alg}-{link_trace}-{delay}-{delay_var}-{iter_num}'
                     with open(os.path.join(log_folder,
-                                        log_name + '-ccp.log')) as f:
+                                           log_name + '-ccp.log')) as f:
                         logs = f.readlines()
                         logs = list(map(lambda x: x.strip('\n'), logs))
                         for str in logs:
                             if re.match(header, str):
                                 alg = re.match(header, str).group(1)
-                                probe_rtt_interval_secs = re.match(header,
-                                                                str).group(2)
-                                probe_rtt_interval_nanos = re.match(header,
-                                                                    str).group(3)
+                                probe_rtt_interval_secs = re.match(
+                                    header, str).group(2)
+                                probe_rtt_interval_nanos = re.match(
+                                    header, str).group(3)
                                 # print(alg, probe_rtt_interval_secs, probe_rtt_interval_nanos)
                             if re.match(probe_bw, str):
-                                probe_bw_brate = re.match(probe_bw, str).group(1)
-                                probe_bw_rate = re.match(probe_bw, str).group(2)
-                                probe_bw_elapsed = re.match(probe_bw, str).group(3)
+                                probe_bw_brate = re.match(probe_bw,
+                                                          str).group(1)
+                                probe_bw_rate = re.match(probe_bw,
+                                                         str).group(2)
+                                probe_bw_elapsed = re.match(probe_bw,
+                                                            str).group(3)
                                 # print(probe_bw_brate, probe_bw_rate, probe_bw_elapsed)
                                 bottle_rate.append(float(probe_bw_brate))
                                 rate.append(float(probe_bw_rate))
@@ -48,24 +61,38 @@ def bbr_parse(trace_info, delay_list, iteration, log_folder, fig_folder):
                             if re.match(new_flow, str):
                                 continue
                             if re.match(new_min_rtt, str):
-                                new_rtt_brate = re.match(new_min_rtt, str).group(1)
+                                new_rtt_brate = re.match(new_min_rtt,
+                                                         str).group(1)
                                 new_rtt = re.match(new_min_rtt, str).group(2)
                             if re.match(switching, str):
-                                switching_rtt = re.match(switching, str).group(1)
-                                switching_5rate = re.match(switching, str).group(2)
-                                switching_brate = re.match(switching, str).group(3)
-                                switching_3rate = re.match(switching, str).group(4)
-                                switching_cwnd = re.match(switching, str).group(5)
+                                switching_rtt = re.match(switching,
+                                                         str).group(1)
+                                switching_5rate = re.match(switching,
+                                                           str).group(2)
+                                switching_brate = re.match(switching,
+                                                           str).group(3)
+                                switching_3rate = re.match(switching,
+                                                           str).group(4)
+                                switching_cwnd = re.match(switching,
+                                                          str).group(5)
                             if re.match(PROBE_BW, str):
-                                PROBE_BW_5rate = re.match(PROBE_BW, str).group(1)
-                                PROBE_BW_brate = re.match(PROBE_BW, str).group(2)
-                                PROBE_BW_3rate = re.match(PROBE_BW, str).group(3)
-                                PROBE_BW_cwnd = re.match(PROBE_BW, str).group(4)
+                                PROBE_BW_5rate = re.match(PROBE_BW,
+                                                          str).group(1)
+                                PROBE_BW_brate = re.match(PROBE_BW,
+                                                          str).group(2)
+                                PROBE_BW_3rate = re.match(PROBE_BW,
+                                                          str).group(3)
+                                PROBE_BW_cwnd = re.match(PROBE_BW,
+                                                         str).group(4)
                     plt.plot(elapsed_time, rate, 'ro-', label='Rate')
-                    plt.plot(elapsed_time, bottle_rate, 'b^-', label='BottleRate')
+                    plt.plot(elapsed_time,
+                             bottle_rate,
+                             'b^-',
+                             label='BottleRate')
                     plt.title(log_name)
                     plt.xlabel('Time (s)')
                     plt.ylabel('BandWidth (Mbps)')
                     plt.legend()
-                    plt.savefig(os.path.join(fig_folder, log_name + '-ccp.png'))
+                    plt.savefig(os.path.join(fig_folder,
+                                             log_name + '-ccp.png'))
                     plt.close()
