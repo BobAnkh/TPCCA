@@ -88,9 +88,10 @@ sudo apt-get install autotools-dev autoconf libtool apache2 apache2-dev protobuf
 cd mahimahi && ./autogen.sh && ./configure && make && sudo make install && cd ..
 
 echo 'Chmod +x to some scripts...'
-chmod +x run_iperf.sh
+chmod +x run_iperf_mmdelay.sh
+chmod +x run_iperf_tc.sh
 chmod +x run_iperf_server.sh
-chmod +x run_tc.sh
+chmod +x utils/set_tc.sh
 
 echo 'Install Python dependencies...'
 pip install -r requirements.txt
