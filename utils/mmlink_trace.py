@@ -4,7 +4,7 @@ import scipy.stats as stats
 
 def gauss(mu, sigma, number):
     '''
-    Return `number`-length truncated Gaussian sequence
+    Return `number`-length truncated Gaussian sequence.
 
     Range: [mu - 3 sigma, mu + 3 sigma]
 
@@ -21,29 +21,20 @@ def gauss(mu, sigma, number):
     return X.rvs(size=number)
 
 
-def generate_mmlink(configs):
-    trace_dict = {}
-    for mean, var, length, interval in configs:
-        bw = gauss(mean, var, length)
-        last_time = 0
-        timestamp = 0
-        transfer = 0
-        trace = ''
-        for b in bw:
-            b = max(0, b)
-            transfer = transfer + b * 125 / interval
-            last_time = last_time + 1
-            if last_time >= interval:
-                last_time = 0
-                timestamp = timestamp + 1
-                while transfer >= 1500:
-                    transfer = max(0, transfer - 1500)
-                    trace = trace + str(timestamp) + '\n'
-        trace_dict[f'{mean}-{var}'] = trace
-    return trace_dict
-
-
 def generate_mmlink_multibw(configs_list):
+    '''
+    Generate traces for mmlink to use.
+
+    Args:
+        configs_list (list): each element is a list containing a bunch of lists. Every sub list has four elements: mean, var, length, interval
+            mean: mean of bandwidth
+            var: variance of bandwidth
+            length: how much points generated
+            interval: how much points in one milleseconds
+
+    Returns:
+        dict, dict: traces, information of traces
+    '''
     trace_dict = {}
     trace_info = {}
     seq = 0
@@ -72,11 +63,14 @@ def generate_mmlink_multibw(configs_list):
                         transfer = max(0, transfer - 1500)
                         trace = trace + str(timestamp) + '\n'
         trace_dict[trace_name] = trace
-        trace_info[trace_name] = {'desc': trace_desc, 'length': timestamp, 'raw_data': raw_trace_data}
+        trace_info[trace_name] = {
+            'desc': trace_desc,
+            'length': timestamp,
+            'raw_data': raw_trace_data
+        }
     return trace_dict, trace_info
 
 
 if __name__ == '__main__':
-    # generate_mmlink([(12, 2, 10, 1), (48, 2, 10, 1)])
     generate_mmlink_multibw([[(12, 0, 10, 1)], [(24, 0, 10, 1),
                                                 (48, 0, 10, 1)]])
