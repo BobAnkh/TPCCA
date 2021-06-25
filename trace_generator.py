@@ -16,6 +16,7 @@ def link_trace_multibw_generator(configs_list, trace_path):
             var: variance of bandwidth
             length: how much points generated
             interval: how much points in one milleseconds
+            e.g. [ [ [ 12, 2, 130000, 1], ], [ [ 48, 8, 130000, 1], [ 24, 6, 130000, 1], ],]
         trace_path (str): folder to save traces
 
     Returns:
