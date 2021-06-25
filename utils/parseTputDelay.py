@@ -5,8 +5,9 @@ import subprocess
 
 import matplotlib.pyplot as plt
 import numpy as np
-from utils import tools
 from tqdm import tqdm
+
+from utils import tools
 
 
 def get_throughput_data(fn):
