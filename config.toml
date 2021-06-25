@@ -1,3 +1,11 @@
+# main configuration for running experiment
+[main]
+# choose if use tcp_probe
+enable_tcp_probe = false
+# choose 'mahimahi' or 'tc' for delay emulator
+delay_emulator = 'tc'
+
+# folder path to save all kinds of files
 [path]
 log_folder = "log"
 trace_folder = "traces"
@@ -6,21 +14,42 @@ ccp_fig_folder = "ccp"
 mahimahi_fig_folder = "mahimahi"
 area_fig_folder = "area"
 
+# experiment parameters configuration
 [data]
+# each element in delay_list stands for the link's RTT in milliseconds
 # delay_list = [ 10, 25, 50, 100, 150, 200, 250,]
-delay_list = [ 10, 25, 50]
-packet_buffer_list = [ 40,]
+delay_list = [ 25]
+# each element in packet_buffer_list stands for the link's bottleneck buffer size in packets(each packet is 1500 Byte)
+packet_buffer_list = [ 40, 100]
 alg = "ccp"
+# each element in trace_list is a list, details see comments of function trace_generator.link_trace_multibw_generator()
 # trace_list = [ [ [ 12, 2, 130000, 1,],], [ [ 48, 8, 130000, 1,],], [ [ 24, 6, 130000, 1,],],]
 trace_list = [ [ [ 12, 2, 130000, 1,],],[ [ 48, 2, 130000, 1,],]]
+# how many iterations need to run for one set of parameters
 iteration = 100
+# how long experiment lasts
+exp_duration = 80
 
+# CCA's name and its executable file path
 [data.ccp_algs]
 bbr = "./bbr/target/release/bbr"
 # copa = "./copa/target/release/copa"
 cubic = "./generic-cong-avoid/target/release/cubic"
 reno = "./generic-cong-avoid/target/release/reno"
 
+# configuration used in log parse and plot
 [data.log]
+# binsize of throughput time interval
 binsize = 0.02
-duration = 10
+# how long of the time sequence to be used for analysis
+duration = 60
+# choose if plot every algorithm
+enable_iteration_plot = false
+# choose if plot every iteration
+enable_alg_plot = false
+
+# actual CCA's name used in voilin figures plot
+[data.plot_name_map]
+bbr = "BBR"
+cubic = "Cubic"
+reno = "Reno"
