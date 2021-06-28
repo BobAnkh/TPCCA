@@ -3,11 +3,15 @@
 import os
 import subprocess
 
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
 
 from utils import tools
+
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
 
 
 def get_throughput_data(fn):
