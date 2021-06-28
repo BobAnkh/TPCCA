@@ -2,6 +2,7 @@ import json
 import os
 import sys
 
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -9,6 +10,9 @@ import seaborn as sns
 from tqdm import tqdm
 
 from utils import parseTputDelay, tools
+
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
 
 
 def calculate_area_detail(time_list, tput_list, start_time_seq, end_time_seq,
@@ -96,11 +100,11 @@ def stable_detect(time_list, tput_list, start_time, end_time, wnd_size,
         for num in range(wnd_num):
             wnd_start, start_seq, error = wnd_detect(time_list, t, i, end_time,
                                                      move_size * num)
-            if error == -1:
+            if error == -1 or error == -2 or error == -3:
                 return end_time
             wnd_end, end_seq, error = wnd_detect(time_list, wnd_start,
                                                  start_seq, end_time, wnd_size)
-            if error == -1:
+            if error == -1 or error == -2 or error == -3:
                 return end_time
             wnd_mean = np.mean(tput_list[start_seq:end_seq + 1])
             wnd_var = np.var(tput_list[start_seq:end_seq + 1])
@@ -203,9 +207,10 @@ def plot_area(ccp_algs, packet_buffer_list, trace_info, delay_list, iteration,
         df.columns = [name_map[x] for x in df.columns]
 
         b = sns.violinplot(data=df, palette='Set2')
-        print(plt.yticks())
+        # print(plt.yticks())
         _, xlabels = plt.xticks()
-        b.set_yticklabels(b.get_yticks(), size=20)
+        ylabels, _ = plt.yticks()
+        b.set_yticklabels(ylabels, size=20)
         b.set_xticklabels(xlabels, size=20)
         # plt.title(scenario)
         plt.ylabel('Area', fontsize='20')
