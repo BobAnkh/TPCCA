@@ -3,7 +3,7 @@
 # choose if use tcp_probe
 enable_tcp_probe = false
 # choose 'mahimahi' or 'tc' for delay emulator
-delay_emulator = 'tc'
+delay_emulator = 'mahimahi'
 
 # folder path to save all kinds of files
 [path]
