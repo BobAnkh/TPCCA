@@ -1,9 +1,12 @@
 import math
 
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import odeint
 
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
 
 def dy(y, t, zeta, w0):
     x, p = y[0], y[1]
