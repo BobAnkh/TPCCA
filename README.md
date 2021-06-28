@@ -1,4 +1,4 @@
-# Quantify Transient Performance
+# Transient Performance of Congestion Control Algorithms
 
 Quantifying the Transient Performance of Congestion Control Algorithms (SIGCOMM 2021 POSTER)
 
@@ -6,7 +6,7 @@ Quantifying the Transient Performance of Congestion Control Algorithms (SIGCOMM 
 
 ### Setup
 
-We do our experiment on Ubuntu, so if you are using other OS, please setup yourself according to `setup.sh`.
+We do our experiment on Ubuntu, so if you are using other OS, please setup the envrionment by yourself according to `setup.sh`.
 
 First create a virtual environment for python, using `conda`, `venv` or whatever you like, and activate it.
 
@@ -17,7 +17,7 @@ Run `setup.sh` by `sh setup.sh` or other similar commands. The script `setup.sh`
 - Get all git submodules.
 - Reset everything.
 - Build ccp-kernel and other CCAs.
-- Build Mahimahi.
+- Build **Mahimahi**.
 - Install some Python dependencies.
 
 ### Run experiment
@@ -26,7 +26,7 @@ We use `config.toml` to configure all the parameters needed for running experime
 
 When you finish your experiment settings in `config.toml`, you can just run `python run_exp.py`.
 
-### Analyze data collected
+### Analyze data collected and plot figures
 
 We use `config.toml` to configure all the parameters needed for analyzing data collected. See it for the detailed configuration.
 
