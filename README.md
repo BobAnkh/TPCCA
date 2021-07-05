@@ -10,7 +10,7 @@ We do our experiment on Ubuntu, so if you are using other OS, please setup the e
 
 First create a virtual environment for python, using `conda`, `venv` or whatever you like, and activate it.
 
-Run `setup.sh` by `sh setup.sh` or other similar commands. The script `setup.sh` will help you do the following things:
+Run `setup.sh` by `bash setup.sh` or other similar commands. The script `setup.sh` will help you do the following things:
 
 - Create folders needed.
 - Install **Rust** if you haven't installed it.
