@@ -32,7 +32,7 @@ We use `config.toml` to configure all the parameters needed for analyzing data c
 
 When you finish your analysis settings in `config.toml`, you can just run `python log_parse.py`.
 
-## Thanks
+## Credits
 
 Many thanks to [Congestion Control Plane](https://ccp-project.github.io/)([SIGCOMM2018-PAPER](https://akshayn.xyz/res/ccp-sigcomm18.pdf)). With its awesome work, we can easily implement a series of CCAs and do our analysis.
 
