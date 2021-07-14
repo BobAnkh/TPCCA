@@ -7,9 +7,11 @@ import toml
 from tqdm import tqdm
 
 from trace_generator import link_trace_multibw_generator
-from utils import tools
+from utils import arg_parser, tools
 
-configs = toml.load('config.toml')
+args = arg_parser.argument_parser()
+config_file_path = args.config
+configs = toml.load(config_file_path)
 
 enable_tcp_probe = configs['main']['enable_tcp_probe']
 delay_emulator = configs['main']['delay_emulator']

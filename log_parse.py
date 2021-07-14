@@ -3,11 +3,14 @@ import os
 
 import toml
 
+from utils import arg_parser
 from utils.area import plot_area
 from utils.ccp_parse import bbr_parse
 from utils.parseTputDelay import parse_tput_delay, plot_tput_delay
 
-configs = toml.load('config.toml')
+args = arg_parser.argument_parser()
+config_file_path = args.config
+configs = toml.load(config_file_path)
 
 delay_list = configs['data']['delay_list']
 packet_buffer_list = configs['data']['packet_buffer_list']
