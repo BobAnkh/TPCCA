@@ -22,15 +22,19 @@ Run `setup.sh` by `bash setup.sh` or other similar commands. The script `setup.s
 
 ### Run experiment
 
-We use `config.toml` to configure all the parameters needed for running experiments. See it for the detailed configuration.
+We use `config.toml` in default to configure all the parameters needed for running experiments. See it for the detailed configuration.
 
 When you finish your experiment settings in `config.toml`, you can just run `python run_exp.py`.
 
+Also you can use `-c` or `--config` argument to specify another config file(in tomal format), e.g. `python run_exp.py -c another_config.toml`.
+
 ### Analyze data collected and plot figures
 
-We use `config.toml` to configure all the parameters needed for analyzing data collected. See it for the detailed configuration.
+We use `config.toml` in default to configure all the parameters needed for analyzing data collected. See it for the detailed configuration.
 
 When you finish your analysis settings in `config.toml`, you can just run `python log_parse.py`.
+
+Also you can use `-c` or `--config` argument to specify another config file(in tomal format), e.g. `python log_parse.py -c another_config.toml`.
 
 ## Credits
 
