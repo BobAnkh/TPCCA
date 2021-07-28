@@ -6,6 +6,7 @@ import toml
 from utils import arg_parser
 from utils.area import plot_area
 from utils.ccp_parse import bbr_parse
+from utils.makefolder import makefolder
 from utils.parse_tput_delay import parse_tput_delay, plot_tput_delay
 
 args = arg_parser.argument_parser()
@@ -29,6 +30,10 @@ binsize = configs['data']['log']['binsize']
 duration = configs['data']['log']['duration']
 enable_iteration_plot = configs['data']['log']['enable_iteration_plot']
 enable_alg_plot = configs['data']['log']['enable_alg_plot']
+
+makefolder(fig_folder, ccp_fig_folder)
+makefolder(fig_folder, mahimahi_fig_folder)
+makefolder(fig_folder, area_fig_folder)
 
 trace_info = json.load(
     open(os.path.join(trace_folder, 'trace_info.json'), encoding='utf-8'))

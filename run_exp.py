@@ -8,6 +8,7 @@ from tqdm import tqdm
 
 from trace_generator import link_trace_multibw_generator
 from utils import arg_parser, tools
+from utils.makefolder import makefolder
 
 args = arg_parser.argument_parser()
 config_file_path = args.config
@@ -27,6 +28,9 @@ log_folder = configs['path']['log_folder']
 
 trace_list = configs['data']['trace_list']
 iteration = configs['data']['iteration']
+
+makefolder(trace_folder)
+makefolder(log_folder)
 
 trace_info = link_trace_multibw_generator(trace_list, trace_folder)
 # trace_info = json.load(

@@ -9,12 +9,7 @@ mk_folder() {
 }
 
 echo 'Create new folders if not exsit...'
-mk_folder traces
-mk_folder log
 mk_folder tmp
-mk_folder figures/ccp
-mk_folder figures/mahimahi
-mk_folder figures/area
 
 # install rust
 if command -v rustc >/dev/null 2>&1; then
