@@ -210,6 +210,7 @@ def plot_area(ccp_algs, packet_buffer_list, trace_info, delay_list, iteration,
         # print(plt.yticks())
         _, xlabels = plt.xticks()
         ylabels, _ = plt.yticks()
+        b.set_yticks(ylabels)
         b.set_yticklabels(ylabels, size=20)
         b.set_xticklabels(xlabels, size=20)
         # plt.title(scenario)
