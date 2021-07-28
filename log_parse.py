@@ -6,7 +6,7 @@ import toml
 from utils import arg_parser
 from utils.area import plot_area
 from utils.ccp_parse import bbr_parse
-from utils.parseTputDelay import parse_tput_delay, plot_tput_delay
+from utils.parse_tput_delay import parse_tput_delay, plot_tput_delay
 
 args = arg_parser.argument_parser()
 config_file_path = args.config

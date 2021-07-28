@@ -9,7 +9,7 @@ import pandas as pd
 import seaborn as sns
 from tqdm import tqdm
 
-from utils import parseTputDelay, tools
+from utils import tools
 
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
