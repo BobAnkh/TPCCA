@@ -16,9 +16,8 @@ area_fig_folder = "area"
 
 # experiment parameters configuration
 [data]
-# each element in delay_list stands for the link's RTT in milliseconds
-# delay_list = [ 10, 25, 50, 100, 150, 200, 250,]
-delay_list = [ 25]
+# each element in delay_list stands for the mean and varience of link's RTT(in milliseconds)
+delay_list = [ [25.0, 2.5],]
 # each element in packet_buffer_list stands for the link's bottleneck buffer size in packets(each packet is 1500 Byte)
 packet_buffer_list = [ 40, 100]
 alg = "ccp"
