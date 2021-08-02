@@ -6,8 +6,10 @@ import time
 import toml
 from tqdm import tqdm
 
-from trace_generator import link_trace_multibw_generator
+#from trace_generator import link_trace_multibw_generator
 from utils import tools
+
+from traceloader import traceloader
 
 configs = toml.load('config.toml')
 
@@ -26,13 +28,14 @@ log_folder = configs['path']['log_folder']
 trace_list = configs['data']['trace_list']
 iteration = configs['data']['iteration']
 
-trace_info = link_trace_multibw_generator(trace_list, trace_folder)
+trace = traceloader(trace_list, trace_folder, 1, 1) 
+trace_info = trace.retinfo()
 # trace_info = json.load(
 #     open(os.path.join(trace_folder, 'trace_info.json'), encoding='utf-8'))
 tools.clear_folder(log_folder)
 
 print('Running iperf server...')
-iperf_server = subprocess.Popen('./run_iperf_server.sh',
+iperf_server = subprocess.Popen('./run_iperf_server.sh', 
                                 shell=True,
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
@@ -45,7 +48,7 @@ for ccp_alg in ccp_algs:
         for link_trace in trace_info:
             for delay in delay_list:
                 # for delay_var in [f'{min(delay / 10, 20):.1f}', f'{min(delay / 5, 30):.1f}']:
-                for delay_var in [f'{min(delay / 10, 20):.1f}']:
+                for delay_var in [f'{min(delay / 10, 20):.1f}']: #???
                     for iter_num in range(iteration):
                         pbar.update(1)
                         log_name = f'{ccp_alg}-{link_trace}-{packet_buffer}-{delay}-{delay_var}-{iter_num}'
@@ -60,12 +63,12 @@ for ccp_alg in ccp_algs:
                         cmd = f'sudo {ccp_algs[ccp_alg]} --ipc=netlink {ccp_args} > ./{log_folder}/{ccp_alg}-tmp.log 2> ./{log_folder}/{log_name}-ccp.log'
                         subprocess.Popen(cmd,
                                          shell=True,
-                                         stdout=subprocess.PIPE,
+                                         stdout=subprocess.PIPE, 
                                          stderr=subprocess.PIPE,
                                          encoding="utf-8")
 
                         if enable_tcp_probe:
-                            subprocess.run(
+                            subprocess.run( #???
                                 "sudo dd if=/dev/null of=/sys/kernel/debug/tracing/trace 2> /dev/null",
                                 shell=True)
                             subprocess.run(

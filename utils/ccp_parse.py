@@ -19,7 +19,7 @@ def bbr_parse(packet_buffer_list, trace_info, delay_list, iteration, log_folder,
         fig_folder (str): folder to save figures
     '''
     tools.clear_folder(fig_folder)
-    ccp_alg = 'bbr'
+    ccp_alg = 'bbr' #???
     header = r'[A-Za-z]{3}\s[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\.[0-9]{1,3}\sINFO\sconfigured\s(.+?),\sprobe_rtt_interval:\sDuration\s\{\ssecs:\s([0-9]+?),\snanos:\s([0-9]+?)\s\},\sipc:\s([A-Za-z]+)'
     probe_bw = r'[A-Za-z]{3}\s[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\.[0-9]{1,3}\sINFO\sprobe_bw,\sbottle\srate\s\(Mbps\):\s([0-9.]+?),\srate\s\(Mbps\):\s([0-9.]+?),\selapsed:\s([0-9.]+)'
     new_flow = r'[A-Za-z]{3}\s[0-9]{1,2}\s[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\.[0-9]{1,3}\sINFO\snew_flow'

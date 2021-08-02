@@ -40,7 +40,7 @@ def link_trace_multibw_generator(configs_list, trace_path):
     return trace_info
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     TRACE_PATH = './traces'
     configs_list = [ [ [ 12, 2, 130000, 1,],],[ [ 12, 2, 130000, 1,],],[ [ 12, 2, 130000, 1,],],[ [ 12, 2, 130000, 1,],],[ [ 12, 2, 130000, 1,],],]
     link_trace_multibw_generator(configs_list, TRACE_PATH)

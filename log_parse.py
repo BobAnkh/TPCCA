@@ -31,8 +31,8 @@ trace_info = json.load(
     open(os.path.join(trace_folder, 'trace_info.json'), encoding='utf-8'))
 
 print('parse bbr ccp log')
-bbr_parse(packet_buffer_list, trace_info, delay_list, iteration, log_folder,
-          os.path.join(fig_folder, ccp_fig_folder))
+#bbr_parse(packet_buffer_list, trace_info, delay_list, iteration, log_folder,
+#   os.path.join(fig_folder, ccp_fig_folder))
 
 print('parse mahimahi log')
 mahimahi_results = parse_tput_delay(log_folder, duration, binsize)

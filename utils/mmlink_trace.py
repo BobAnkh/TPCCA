@@ -10,7 +10,7 @@ def gauss(mu, sigma, number):
 
     Args:
         mu (int/float): mean
-        sigma (int/float): variance
+        sigma (int/float): variance       #???
         number (int): the length of truncated Gaussian sequence
 
     Returns:
@@ -22,7 +22,7 @@ def gauss(mu, sigma, number):
 
 
 def generate_mmlink_multibw(configs_list):
-    '''
+    ''' 
     Generate traces for mmlink to use.
 
     Args:
@@ -53,7 +53,7 @@ def generate_mmlink_multibw(configs_list):
             trace_desc = trace_desc + f'<{mean}-{var}-{length}-{interval}>'
             bw = gauss(mean, var, length)
             raw_trace_data = np.append(raw_trace_data, bw)
-            for b in bw:
+            for b in bw: #???
                 transfer = transfer + b * 125 / interval
                 last_time = last_time + 1
                 if last_time >= interval:
@@ -71,6 +71,6 @@ def generate_mmlink_multibw(configs_list):
     return trace_dict, trace_info
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': #???
     generate_mmlink_multibw([[(12, 0, 10, 1)], [(24, 0, 10, 1),
                                                 (48, 0, 10, 1)]])
