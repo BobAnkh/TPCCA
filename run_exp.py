@@ -6,7 +6,7 @@ import time
 import toml
 from tqdm import tqdm
 
-from trace_generator import link_trace_multibw_generator
+from traceloader import traceloader
 from utils import arg_parser
 from utils.tools import makefolder, clear_folder
 
@@ -34,7 +34,8 @@ iteration = configs['data']['iteration']
 makefolder(trace_folder)
 makefolder(log_folder)
 
-trace_info = link_trace_multibw_generator(trace_list, trace_folder)
+t = traceloader(trace_list, trace_folder, 1, 1)
+trace_info=t.retinfo()
 # trace_info = json.load(
 #     open(os.path.join(trace_folder, 'trace_info.json'), encoding='utf-8'))
 clear_folder(log_folder)

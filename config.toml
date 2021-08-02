@@ -16,22 +16,16 @@ area_fig_folder = "area"
 
 # experiment parameters configuration
 [data]
-<<<<<<< HEAD
-# each element in delay_list stands for the link's RTT in milliseconds
-# delay_list = [ 10, 25, 50, 100, 150, 200, 250,]
-delay_list = [25]
-=======
 # each element in delay_list stands for the mean and varience of link's RTT(in milliseconds)
 delay_list = [ [25.0, 2.5],]
->>>>>>> 3d90866fd0fb2c6bb753f4ac869b3f30c392afff
 # each element in packet_buffer_list stands for the link's bottleneck buffer size in packets(each packet is 1500 Byte)
 packet_buffer_list = [ 40, 100]
 alg = "ccp"
 # each element in trace_list is a list, details see comments of function trace_generator.link_trace_multibw_generator()
 # trace_list = [ [ [ 12, 2, 130000, 1,],], [ [ 48, 8, 130000, 1,],], [ [ 24, 6, 130000, 1,],],]
-trace_list = [ [ [ 12, 0, 130000, 1,],]]#,[ [ 48, 0, 130000, 1,],]]
+trace_list = [ [ [ 12, 2, 130000, 1,],],[ [ 48, 2, 130000, 1,],]]
 # how many iterations need to run for one set of parameters
-iteration = 20
+iteration = 100
 # how long experiment lasts
 exp_duration = 80
 
@@ -39,8 +33,8 @@ exp_duration = 80
 [data.ccp_algs]
 bbr = "./bbr/target/release/bbr"
 #copa = "./copa/target/release/copa"
-#cubic = "./generic-cong-avoid/target/release/cubic"
-#reno = "./generic-cong-avoid/target/release/reno"
+cubic = "./generic-cong-avoid/target/release/cubic"
+reno = "./generic-cong-avoid/target/release/reno"
 
 # configuration used in log parse and plot
 [data.log]
