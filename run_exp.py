@@ -10,6 +10,8 @@ from trace_generator import link_trace_multibw_generator
 from utils import arg_parser
 from utils.tools import makefolder, clear_folder
 
+IPERF_PORT = 9001
+
 args = arg_parser.argument_parser()
 config_file_path = args.config
 configs = toml.load(config_file_path)
@@ -38,7 +40,7 @@ trace_info = link_trace_multibw_generator(trace_list, trace_folder)
 clear_folder(log_folder)
 
 print('Running iperf server...')
-iperf_server = subprocess.Popen('./run_iperf_server.sh',
+iperf_server = subprocess.Popen(f'iperf -s -p {IPERF_PORT} >./{log_folder}/iperf_server.log',
                                 shell=True,
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
@@ -80,9 +82,9 @@ for ccp_alg in ccp_algs:
                         time.sleep(0.1)
 
                     if delay_emulator == 'mahimahi':
-                        cmd = f'mm-delay {delay} mm-link ./traces/{link_trace} ./traces/{link_trace} --uplink-queue=droptail --downlink-queue=droptail --uplink-queue-args="packets={packet_buffer}" --downlink-queue-args="packets={packet_buffer}" --uplink-log="./{log_folder}/{log_name}-mahimahi.log" -- ./run_iperf_mmdelay.sh {log_folder} {log_name} {alg} {duration}'
+                        cmd = f'mm-delay {delay} mm-link ./traces/{link_trace} ./traces/{link_trace} --uplink-queue=droptail --downlink-queue=droptail --uplink-queue-args="packets={packet_buffer}" --downlink-queue-args="packets={packet_buffer}" --uplink-log="./{log_folder}/{log_name}-mahimahi.log" -- ./run_iperf_mmdelay.sh {log_folder} {log_name} {alg} {duration} {IPERF_PORT}'
                     elif delay_emulator == 'tc':
-                        cmd = f'mm-link ./traces/{link_trace} ./traces/{link_trace} --uplink-queue=droptail --downlink-queue=droptail --uplink-queue-args="packets={packet_buffer}" --downlink-queue-args="packets={packet_buffer}" --uplink-log="./{log_folder}/{log_name}-mahimahi.log" -- ./run_iperf_tc.sh {log_folder} {log_name} {alg} {duration} {delay * 2}ms {delay_var * 2}ms'
+                        cmd = f'mm-link ./traces/{link_trace} ./traces/{link_trace} --uplink-queue=droptail --downlink-queue=droptail --uplink-queue-args="packets={packet_buffer}" --downlink-queue-args="packets={packet_buffer}" --uplink-log="./{log_folder}/{log_name}-mahimahi.log" -- ./run_iperf_tc.sh {log_folder} {log_name} {alg} {duration} {IPERF_PORT} {delay * 2}ms {delay_var * 2}ms'
                     else:
                         sys.exit("Wrong delay emulator! Check your config!")
                     subprocess.run(cmd, shell=True)
@@ -101,7 +103,7 @@ for ccp_alg in ccp_algs:
                             f'head -n 11 "./{log_folder}/{ccp_alg}-tmp.log" > "./{log_folder}/{log_name}-tcpprobe.log"',
                             shell=True)
                         subprocess.run(
-                            f'grep ":9001" "./{log_folder}/{ccp_alg}-tmp.log" >> "./{log_folder}/{log_name}-tcpprobe.log"',
+                            f'grep ":{IPERF_PORT}" "./{log_folder}/{ccp_alg}-tmp.log" >> "./{log_folder}/{log_name}-tcpprobe.log"',
                             shell=True)
                         subprocess.run(
                             f'rm -f "./{log_folder}/{ccp_alg}-tmp.log"',
