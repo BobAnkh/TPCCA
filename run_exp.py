@@ -6,7 +6,7 @@ import time
 import toml
 from tqdm import tqdm
 
-from traceloader import traceloader
+from traceloader import TraceLoader
 from utils import arg_parser
 from utils.tools import makefolder, clear_folder
 
@@ -34,18 +34,20 @@ iteration = configs['data']['iteration']
 makefolder(trace_folder)
 makefolder(log_folder)
 
-t = traceloader(trace_list, trace_folder, 1, 1)
-trace_info=t.retinfo()
+traceloader = TraceLoader(trace_list, trace_folder, 1, 1, 1)
+traceloader.load()
+trace_info = traceloader.read_trace_info()
 # trace_info = json.load(
 #     open(os.path.join(trace_folder, 'trace_info.json'), encoding='utf-8'))
 clear_folder(log_folder)
 
 print('Running iperf server...')
-iperf_server = subprocess.Popen(f'iperf -s -p {IPERF_PORT} >./{log_folder}/iperf_server.log',
-                                shell=True,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE,
-                                encoding="utf-8")
+iperf_server = subprocess.Popen(
+    f'iperf -s -p {IPERF_PORT} >./{log_folder}/iperf_server.log',
+    shell=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    encoding="utf-8")
 
 pbar = tqdm(total=len(ccp_algs) * len(packet_buffer_list) * len(trace_info) *
             len(delay_list) * iteration)
