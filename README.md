@@ -10,7 +10,7 @@ We do our experiment on Ubuntu, so if you are using other OS, please setup the e
 
 First create a virtual environment for python, using `conda`, `venv` or whatever you like, and activate it.
 
-Run `setup.sh` by `sh setup.sh` or other similar commands. The script `setup.sh` will help you do the following things:
+Run `setup.sh` by `bash setup.sh` or other similar commands. The script `setup.sh` will help you do the following things:
 
 - Create folders needed.
 - Install **Rust** if you haven't installed it.
@@ -22,17 +22,21 @@ Run `setup.sh` by `sh setup.sh` or other similar commands. The script `setup.sh`
 
 ### Run experiment
 
-We use `config.toml` to configure all the parameters needed for running experiments. See it for the detailed configuration.
+We use `config.toml` in default to configure all the parameters needed for running experiments. See it for the detailed configuration.
 
 When you finish your experiment settings in `config.toml`, you can just run `python run_exp.py`.
 
+Also you can use `-c` or `--config` argument to specify another config file(in tomal format), e.g. `python run_exp.py -c another_config.toml`.
+
 ### Analyze data collected and plot figures
 
-We use `config.toml` to configure all the parameters needed for analyzing data collected. See it for the detailed configuration.
+We use `config.toml` in default to configure all the parameters needed for analyzing data collected. See it for the detailed configuration.
 
 When you finish your analysis settings in `config.toml`, you can just run `python log_parse.py`.
 
-## Thanks
+Also you can use `-c` or `--config` argument to specify another config file(in tomal format), e.g. `python log_parse.py -c another_config.toml`.
+
+## Credits
 
 Many thanks to [Congestion Control Plane](https://ccp-project.github.io/)([SIGCOMM2018-PAPER](https://akshayn.xyz/res/ccp-sigcomm18.pdf)). With its awesome work, we can easily implement a series of CCAs and do our analysis.
 
