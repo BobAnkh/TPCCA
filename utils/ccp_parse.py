@@ -29,72 +29,73 @@ def bbr_parse(packet_buffer_list, trace_info, delay_list, iteration, log_folder,
 
     for packet_buffer in packet_buffer_list:
         for link_trace in trace_info:
-            for delay in delay_list:
-                for delay_var in [f'{min(delay / 10, 20):.1f}']:
-                    for iter_num in range(iteration):
-                        plt.figure()
-                        bottle_rate = []
-                        rate = []
-                        elapsed_time = []
-                        log_name = f'{ccp_alg}-{link_trace}-{packet_buffer}-{delay}-{delay_var}-{iter_num}'
-                        with open(os.path.join(log_folder,
-                                            log_name + '-ccp.log')) as f:
-                            logs = f.readlines()
-                            logs = list(map(lambda x: x.strip('\n'), logs))
-                            for str in logs:
-                                if re.match(header, str):
-                                    alg = re.match(header, str).group(1)
-                                    probe_rtt_interval_secs = re.match(
-                                        header, str).group(2)
-                                    probe_rtt_interval_nanos = re.match(
-                                        header, str).group(3)
-                                    # print(alg, probe_rtt_interval_secs, probe_rtt_interval_nanos)
-                                if re.match(probe_bw, str):
-                                    probe_bw_brate = re.match(probe_bw,
-                                                            str).group(1)
-                                    probe_bw_rate = re.match(probe_bw,
-                                                            str).group(2)
-                                    probe_bw_elapsed = re.match(probe_bw,
-                                                                str).group(3)
-                                    # print(probe_bw_brate, probe_bw_rate, probe_bw_elapsed)
-                                    bottle_rate.append(float(probe_bw_brate))
-                                    rate.append(float(probe_bw_rate))
-                                    elapsed_time.append(float(probe_bw_elapsed))
-                                if re.match(new_flow, str):
-                                    continue
-                                if re.match(new_min_rtt, str):
-                                    new_rtt_brate = re.match(new_min_rtt,
-                                                            str).group(1)
-                                    new_rtt = re.match(new_min_rtt, str).group(2)
-                                if re.match(switching, str):
-                                    switching_rtt = re.match(switching,
-                                                            str).group(1)
-                                    switching_5rate = re.match(switching,
-                                                            str).group(2)
-                                    switching_brate = re.match(switching,
+            for delay, delay_var in delay_list:
+                delay = int(delay)
+                delay_var = round(delay_var, 1)
+                for iter_num in range(iteration):
+                    plt.figure()
+                    bottle_rate = []
+                    rate = []
+                    elapsed_time = []
+                    log_name = f'{ccp_alg}-{link_trace}-{packet_buffer}-{delay}-{delay_var}-{iter_num}'
+                    with open(os.path.join(log_folder,
+                                        log_name + '-ccp.log')) as f:
+                        logs = f.readlines()
+                        logs = list(map(lambda x: x.strip('\n'), logs))
+                        for str in logs:
+                            if re.match(header, str):
+                                alg = re.match(header, str).group(1)
+                                probe_rtt_interval_secs = re.match(
+                                    header, str).group(2)
+                                probe_rtt_interval_nanos = re.match(
+                                    header, str).group(3)
+                                # print(alg, probe_rtt_interval_secs, probe_rtt_interval_nanos)
+                            if re.match(probe_bw, str):
+                                probe_bw_brate = re.match(probe_bw,
+                                                        str).group(1)
+                                probe_bw_rate = re.match(probe_bw,
+                                                        str).group(2)
+                                probe_bw_elapsed = re.match(probe_bw,
                                                             str).group(3)
-                                    switching_3rate = re.match(switching,
-                                                            str).group(4)
-                                    switching_cwnd = re.match(switching,
-                                                            str).group(5)
-                                if re.match(PROBE_BW, str):
-                                    PROBE_BW_5rate = re.match(PROBE_BW,
-                                                            str).group(1)
-                                    PROBE_BW_brate = re.match(PROBE_BW,
-                                                            str).group(2)
-                                    PROBE_BW_3rate = re.match(PROBE_BW,
-                                                            str).group(3)
-                                    PROBE_BW_cwnd = re.match(PROBE_BW,
-                                                            str).group(4)
-                        plt.plot(elapsed_time, rate, 'ro-', label='Rate')
-                        plt.plot(elapsed_time,
-                                bottle_rate,
-                                'b^-',
-                                label='BottleRate')
-                        plt.title(log_name)
-                        plt.xlabel('Time (s)')
-                        plt.ylabel('BandWidth (Mbps)')
-                        plt.legend()
-                        plt.savefig(os.path.join(fig_folder,
-                                                log_name + '-ccp.png'))
-                        plt.close()
+                                # print(probe_bw_brate, probe_bw_rate, probe_bw_elapsed)
+                                bottle_rate.append(float(probe_bw_brate))
+                                rate.append(float(probe_bw_rate))
+                                elapsed_time.append(float(probe_bw_elapsed))
+                            if re.match(new_flow, str):
+                                continue
+                            if re.match(new_min_rtt, str):
+                                new_rtt_brate = re.match(new_min_rtt,
+                                                        str).group(1)
+                                new_rtt = re.match(new_min_rtt, str).group(2)
+                            if re.match(switching, str):
+                                switching_rtt = re.match(switching,
+                                                        str).group(1)
+                                switching_5rate = re.match(switching,
+                                                        str).group(2)
+                                switching_brate = re.match(switching,
+                                                        str).group(3)
+                                switching_3rate = re.match(switching,
+                                                        str).group(4)
+                                switching_cwnd = re.match(switching,
+                                                        str).group(5)
+                            if re.match(PROBE_BW, str):
+                                PROBE_BW_5rate = re.match(PROBE_BW,
+                                                        str).group(1)
+                                PROBE_BW_brate = re.match(PROBE_BW,
+                                                        str).group(2)
+                                PROBE_BW_3rate = re.match(PROBE_BW,
+                                                        str).group(3)
+                                PROBE_BW_cwnd = re.match(PROBE_BW,
+                                                        str).group(4)
+                    plt.plot(elapsed_time, rate, 'ro-', label='Rate')
+                    plt.plot(elapsed_time,
+                            bottle_rate,
+                            'b^-',
+                            label='BottleRate')
+                    plt.title(log_name)
+                    plt.xlabel('Time (s)')
+                    plt.ylabel('BandWidth (Mbps)')
+                    plt.legend()
+                    plt.savefig(os.path.join(fig_folder,
+                                            log_name + '-ccp.png'))
+                    plt.close()

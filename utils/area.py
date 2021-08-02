@@ -144,44 +144,45 @@ def plot_area(ccp_algs, packet_buffer_list, trace_info, delay_list, iteration,
     for packet_buffer in packet_buffer_list:
         for link_trace in trace_info:
             standard_bw = int(link_trace.split('-')[0])
-            for delay in delay_list:
-                for delay_var in [f'{min(delay / 10, 20):.1f}']:
-                    print('standard_bw:', standard_bw, 'delay:', delay,
-                          'delay_var:', delay_var)
-                    alg_dict = {}
-                    stable_dict = {}
-                    for iter_num in range(iteration):
-                        # print('iter_num', iter_num)
-                        for ccp_alg in ccp_algs:
-                            log_name = f'{ccp_alg}-{link_trace}-{packet_buffer}-{delay}-{delay_var}-{iter_num}-mahimahi.log'
-                            # TODO: may update stable detect params config
-                            stable_mark = stable_detect(
-                                mahimahi_results[log_name]['time_list'],
-                                mahimahi_results[log_name]['tput_list'], 0, 40,
-                                delay * 20 / 1000, delay * 8 / 1000, 3, 0.02,
-                                0.02)
-                            # TODO: normalize by bandwidth
-                            area = calculate_area_detail(
-                                mahimahi_results[log_name]['time_list'],
-                                mahimahi_results[log_name]['tput_list'], 0,
-                                stable_mark, standard_bw) / (standard_bw / 12)
-                            # print(log_name, stable_mark)
-                            if ccp_alg not in alg_dict:
-                                alg_dict[ccp_alg] = [area]
-                                stable_dict[ccp_alg] = [
-                                    mahimahi_results[log_name]['time_list']
-                                    [stable_mark]
-                                ]
-                            else:
-                                alg_dict[ccp_alg].append(area)
-                                stable_dict[ccp_alg].append(
-                                    mahimahi_results[log_name]['time_list']
-                                    [stable_mark])
-                    area_dict[
-                        f'{link_trace}-{packet_buffer}-{delay}-{delay_var}'] = {
-                            'alg_dict': alg_dict,
-                            'stable_dict': stable_dict
-                        }
+            for delay, delay_var in delay_list:
+                delay = int(delay)
+                delay_var = round(delay_var, 1)
+                print('standard_bw:', standard_bw, 'delay:', delay,
+                        'delay_var:', delay_var)
+                alg_dict = {}
+                stable_dict = {}
+                for iter_num in range(iteration):
+                    # print('iter_num', iter_num)
+                    for ccp_alg in ccp_algs:
+                        log_name = f'{ccp_alg}-{link_trace}-{packet_buffer}-{delay}-{delay_var}-{iter_num}-mahimahi.log'
+                        # TODO: may update stable detect params config
+                        stable_mark = stable_detect(
+                            mahimahi_results[log_name]['time_list'],
+                            mahimahi_results[log_name]['tput_list'], 0, 40,
+                            delay * 20 / 1000, delay * 8 / 1000, 3, 0.02,
+                            0.02)
+                        # TODO: normalize by bandwidth
+                        area = calculate_area_detail(
+                            mahimahi_results[log_name]['time_list'],
+                            mahimahi_results[log_name]['tput_list'], 0,
+                            stable_mark, standard_bw) / (standard_bw / 12)
+                        # print(log_name, stable_mark)
+                        if ccp_alg not in alg_dict:
+                            alg_dict[ccp_alg] = [area]
+                            stable_dict[ccp_alg] = [
+                                mahimahi_results[log_name]['time_list']
+                                [stable_mark]
+                            ]
+                        else:
+                            alg_dict[ccp_alg].append(area)
+                            stable_dict[ccp_alg].append(
+                                mahimahi_results[log_name]['time_list']
+                                [stable_mark])
+                area_dict[
+                    f'{link_trace}-{packet_buffer}-{delay}-{delay_var}'] = {
+                        'alg_dict': alg_dict,
+                        'stable_dict': stable_dict
+                    }
     json.dump(
         area_dict,
         open(os.path.join(fig_folder, 'area_info.json'), 'w',
