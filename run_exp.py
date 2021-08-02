@@ -7,8 +7,8 @@ import toml
 from tqdm import tqdm
 
 from trace_generator import link_trace_multibw_generator
-from utils import arg_parser, tools
-from utils.makefolder import makefolder
+from utils import arg_parser
+from utils.tools import makefolder, clear_folder
 
 args = arg_parser.argument_parser()
 config_file_path = args.config
@@ -35,7 +35,7 @@ makefolder(log_folder)
 trace_info = link_trace_multibw_generator(trace_list, trace_folder)
 # trace_info = json.load(
 #     open(os.path.join(trace_folder, 'trace_info.json'), encoding='utf-8'))
-tools.clear_folder(log_folder)
+clear_folder(log_folder)
 
 print('Running iperf server...')
 iperf_server = subprocess.Popen('./run_iperf_server.sh',

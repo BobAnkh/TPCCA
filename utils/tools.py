@@ -7,3 +7,9 @@ def clear_folder(folder):
         file_path = os.path.join(folder, f)
         if os.path.isfile(file_path):
             os.remove(file_path)
+
+
+def makefolder(*args):
+    dir = os.path.join(*args)
+    if not os.path.exists(dir):
+        os.makedirs(dir)
