@@ -31,7 +31,7 @@ log_folder = configs['path']['log_folder']
 trace_list = configs['data']['trace_list']
 iteration = configs['data']['iteration']
 
-link_trace_save=configs['trace']['link_trace_save']
+link_trace_save = configs['trace']['link_trace_save']
 raw_data_save = configs['trace']['raw_data_save']
 trace_info_save = configs['trace']['trace_info_save']
 
