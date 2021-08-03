@@ -91,9 +91,9 @@ class TraceLoader:
         Args:
             trace_list (list): information of traces to load
             trace_folder (str): path to save the traces
-            link_trace_save (int, optional): whether save the link_trace in trace_folder or not. Defaults to True.
-            raw_save (int, optional): whether save the raw_data in .npy or not. Defaults to True.
-            trace_info_save (int, optional): whether save the trace_info in .json or not. Defaults to True.
+            link_trace_save (bool, optional): whether save the link_trace in trace_folder or not. Defaults to True.
+            raw_save (bool, optional): whether save the raw_data in .npy or not. Defaults to True.
+            trace_info_save (bool, optional): whether save the trace_info in .json or not. Defaults to True.
         '''
 
         self._trace_list = trace_list
