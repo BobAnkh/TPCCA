@@ -53,3 +53,12 @@ copa="Copa"
 bbr = "BBR"
 cubic = "Cubic"
 reno = "Reno"
+
+#configuration used in trace loader
+[trace_parameters]
+#whether save the link_trace in trace_folder or not
+link_trace_save=true
+#whether save the raw_data in .npy or not
+raw_save=true
+#whether save the trace_info in .json or not
+trace_info_save=true

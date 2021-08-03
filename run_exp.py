@@ -31,10 +31,14 @@ log_folder = configs['path']['log_folder']
 trace_list = configs['data']['trace_list']
 iteration = configs['data']['iteration']
 
+link_trace_save=configs['trace_parameters']['link_trace_save']
+raw_save = configs['trace_parameters']['raw_save']
+trace_info_save = configs['trace_parameters']['trace_info_save']
+
 makefolder(trace_folder)
 makefolder(log_folder)
 
-traceloader = TraceLoader(trace_list, trace_folder, 1, 1, 1)
+traceloader = TraceLoader(trace_list, trace_folder, link_trace_save, raw_save, trace_info_save)
 traceloader.load()
 trace_info = traceloader.read_trace_info()
 # trace_info = json.load(
@@ -42,12 +46,11 @@ trace_info = traceloader.read_trace_info()
 clear_folder(log_folder)
 
 print('Running iperf server...')
-iperf_server = subprocess.Popen(
-    f'iperf -s -p {IPERF_PORT} >./{log_folder}/iperf_server.log',
-    shell=True,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    encoding="utf-8")
+iperf_server = subprocess.Popen(f'iperf -s -p {IPERF_PORT} >./{log_folder}/iperf_server.log',
+                                shell=True,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                encoding="utf-8")
 
 pbar = tqdm(total=len(ccp_algs) * len(packet_buffer_list) * len(trace_info) *
             len(delay_list) * iteration)
