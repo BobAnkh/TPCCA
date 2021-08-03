@@ -9,6 +9,7 @@ from utils import tools
 def bbr_parse(packet_buffer_list, trace_info, delay_list, iteration, log_folder, fig_folder):
     '''
     Parse bbr log of CCP
+    
     Args:
         packet_buffer_list(list): packet buffer list
         trace_info (dict): traces information
