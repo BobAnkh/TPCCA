@@ -49,7 +49,7 @@ enable_alg_plot = false
 
 # actual CCA's name used in voilin figures plot
 [data.plot_name_map]
-copa="Copa"
+copa= "Copa"
 bbr = "BBR"
 cubic = "Cubic"
 reno = "Reno"
