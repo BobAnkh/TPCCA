@@ -6,7 +6,7 @@ import time
 import toml
 from tqdm import tqdm
 
-from traceloader import TraceLoader
+from utils.traceloader import TraceLoader
 from utils import arg_parser
 from utils.tools import makefolder, clear_folder
 
@@ -31,14 +31,14 @@ log_folder = configs['path']['log_folder']
 trace_list = configs['data']['trace_list']
 iteration = configs['data']['iteration']
 
-link_trace_save=configs['trace_parameters']['link_trace_save']
-raw_save = configs['trace_parameters']['raw_save']
-trace_info_save = configs['trace_parameters']['trace_info_save']
+link_trace_save=configs['trace']['link_trace_save']
+raw_data_save = configs['trace']['raw_data_save']
+trace_info_save = configs['trace']['trace_info_save']
 
 makefolder(trace_folder)
 makefolder(log_folder)
 
-traceloader = TraceLoader(trace_list, trace_folder, link_trace_save, raw_save, trace_info_save)
+traceloader = TraceLoader(trace_list, trace_folder, link_trace_save, raw_data_save, trace_info_save)
 traceloader.load()
 trace_info = traceloader.read_trace_info()
 # trace_info = json.load(

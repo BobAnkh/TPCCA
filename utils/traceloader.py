@@ -77,51 +77,52 @@ def generate_mmlink_multibw(configs_list):
 
 
 class TraceLoader:
-    'load the information of traces'
+    'Load the information of traces.'
 
     def __init__(self,
                  trace_list: list,
                  trace_folder: str,
                  link_trace_save=True,
-                 raw_save=True,
+                 raw_data_save=True,
                  trace_info_save=True):
-        '''[summary]
-            initialize the TraceLoader
+        '''
+        Initialize the TraceLoader.
+
         Args:
-            trace_list (list): [information of traces to load]
-            trace_folder (str): [path to save the traces]
-            link_trace_save (int, optional): [whether save the link_trace in trace_folder or not]. Defaults to True.
-            raw_save (int, optional): [whether save the raw_data in .npy or not]. Defaults to True.
-            trace_info_save (int, optional): [whether save the trace_info in .json or not]. Defaults to True.
+            trace_list (list): information of traces to load
+            trace_folder (str): path to save the traces
+            link_trace_save (int, optional): whether save the link_trace in trace_folder or not. Defaults to True.
+            raw_save (int, optional): whether save the raw_data in .npy or not. Defaults to True.
+            trace_info_save (int, optional): whether save the trace_info in .json or not. Defaults to True.
         '''
 
         self._trace_list = trace_list
         self._trace_folder = trace_folder
         self._link_trace_save = link_trace_save
-        self._raw_save = raw_save
+        self._raw_data_save = raw_data_save
         self._trace_info_save = trace_info_save
 
     def load(self):
-        '''[summary]
-            run the generator and load the trace
+        '''
+        Run the generator and load the trace.
         '''
         self._link_trace_multibw_generator()
 
     def read_trace_info(self):
-        '''[summary]
-            public interface to read the trace_info
+        '''
+        Public interface to read the trace_info
 
         Returns:
-            [dict]: [information of the trace]
+            dict: information of the trace
         '''
         return self.trace_info
 
     def read_link_trace(self):
-        '''[summary]
-            public interface to read the link_trace
+        '''
+        Public interface to read the link_trace
 
         Returns:
-            [dict]: [the traces]
+            dict: the traces
         '''
         return self.link_trace
 
@@ -154,7 +155,7 @@ class TraceLoader:
             raw_data = self.trace_info[info].pop('raw_data')
             raw_path = os.path.join(self._trace_folder, info + '.npy')
             self.trace_info[info]['raw_data'] = raw_path
-            if self._raw_save:
+            if self._raw_data_save:
                 np.save(raw_path, raw_data)
         if self._trace_info_save:
             json.dump(
