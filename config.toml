@@ -49,6 +49,16 @@ enable_alg_plot = false
 
 # actual CCA's name used in voilin figures plot
 [data.plot_name_map]
+copa= "Copa"
 bbr = "BBR"
 cubic = "Cubic"
 reno = "Reno"
+
+# configuration used in trace loader
+[trace]
+# whether save the link_trace in trace_folder or not
+link_trace_save=true
+# whether save the raw_data in .npy or not
+raw_data_save=true
+# whether save the trace_info in .json or not
+trace_info_save=true
