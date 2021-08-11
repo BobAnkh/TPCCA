@@ -21,7 +21,7 @@ delay_list = [ [25.0, 2.5],]
 # each element in packet_buffer_list stands for the link's bottleneck buffer size in packets(each packet is 1500 Byte)
 packet_buffer_list = [ 40, 100]
 alg = "ccp"
-# each element in trace_list is a list, details see comments of function trace_generator.link_trace_multibw_generator()
+# each element in trace_list is a list, details see comments of function _link_trace_multibw_generator() in class TraceLoader in utils/traceloader.py
 # trace_list = [ [ [ 12, 2, 130000, 1,],], [ [ 48, 8, 130000, 1,],], [ [ 24, 6, 130000, 1,],],]
 trace_list = [ [ [ 12, 2, 130000, 1,],],[ [ 48, 2, 130000, 1,],]]
 # how many iterations need to run for one set of parameters
