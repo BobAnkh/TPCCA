@@ -47,3 +47,22 @@ Also thanks to [Mahimahi](https://github.com/ravinet/mahimahi) for enabling us t
 [Apache-2.0](/LICENSE) © BobAnkh
 
 ## Cite
+
+```bibtex
+@inproceedings{10.1145/3472716.3472861,
+author = {Shen, Yixin and Meng, Zili and Chen, Jing and Xu, Mingwei},
+title = {Quantifying the Transient Performance of Congestion Control Algorithms},
+year = {2021},
+isbn = {9781450386296},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3472716.3472861},
+doi = {10.1145/3472716.3472861},
+booktitle = {Proceedings of the SIGCOMM '21 Poster and Demo Sessions},
+pages = {42–44},
+numpages = {3},
+keywords = {verification, congestion control algorithm, transient performance},
+location = {Virtual Event},
+series = {SIGCOMM '21}
+}
+```
