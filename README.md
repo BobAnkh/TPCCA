@@ -2,6 +2,10 @@
 
 Quantifying the Transient Performance of Congestion Control Algorithms (SIGCOMM 2021 POSTER)
 
+Paper can be found [here](https://dl.acm.org/doi/pdf/10.1145/3472716.3472861) on [ACM's website](https://dl.acm.org/doi/10.1145/3472716.3472861) or [here](https://bobankh.com/papers/tpcca-sigcomm21.pdf) on my [personal website](https://bobankh.com/paper/).
+
+You can also find a 3-minute video presentation [here](https://youtu.be/FdUIs5gHhcQ).
+
 ## Usage
 
 ### Setup
