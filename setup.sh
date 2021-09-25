@@ -85,7 +85,6 @@ cd mahimahi && ./autogen.sh && ./configure && make && sudo make install && cd ..
 echo 'Chmod +x to some scripts...'
 chmod +x run_iperf_mmdelay.sh
 chmod +x run_iperf_tc.sh
-chmod +x run_iperf_server.sh
 chmod +x utils/set_tc.sh
 
 echo 'Install Python dependencies...'
