@@ -1,7 +1,7 @@
 matplotlib==3.5.1
 numpy==1.22.2
 scapy==2.4.5
-scipy==1.7.3
+scipy==1.8.0
 toml==0.10.2
 tqdm==4.62.3
 seaborn==0.11.2
