@@ -1,5 +1,5 @@
 matplotlib==3.5.2
-numpy==1.23.0
+numpy==1.23.1
 scapy==2.4.5
 scipy==1.8.1
 toml==0.10.2
