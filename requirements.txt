@@ -3,5 +3,5 @@ numpy==1.24.2
 scapy==2.4.5
 scipy==1.10.1
 toml==0.10.2
-tqdm==4.65.0
+tqdm==4.66.4
 seaborn==0.12.2
